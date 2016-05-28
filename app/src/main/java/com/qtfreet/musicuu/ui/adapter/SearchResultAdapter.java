@@ -87,10 +87,25 @@ public class SearchResultAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(picurl)) {
             Picasso.with(context).load(picurl).resize(150, 150).centerCrop().into(holder.pic);
         }
+        final String SongId =  mSearchResult.get(position).getSongId();
+        final String SongName  = mSearchResult.get(position).getSongName();
+        final String Artist = mSearchResult.get(position).getArtist();
+        final String SqUrl = mSearchResult.get(position).getSqUrl();
+        final String HqUrl =  mSearchResult.get(position).getHqUrl();
+        final String LqUrl =  mSearchResult.get(position).getLqUrl();
+        final String VideoUrl = mSearchResult.get(position).getVideoUrl();
         holder.btn_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.Download(v, position, mSearchResult.get(position).getSongId(), mSearchResult.get(position).getSongName(), mSearchResult.get(position).getArtist(), mSearchResult.get(position).getHqUrl(), mSearchResult.get(position).getLqUrl(), mSearchResult.get(position).getSqUrl(), mSearchResult.get(position).getVideoUrl(), mSearchResult.get(position).getFlacUrl(), holder.btn_down);
+                if(!SqUrl.equals("")){
+                    mListener.Download(v, position, SongId, SongName, Artist,  SqUrl, VideoUrl, holder.btn_down);
+                }else if(!HqUrl.equals("")){
+                    mListener.Download(v, position, SongId, SongName, Artist,  HqUrl, VideoUrl, holder.btn_down);
+                }else if(!LqUrl.equals("")){
+                    mListener.Download(v, position, SongId, SongName, Artist,  LqUrl, VideoUrl, holder.btn_down);
+                }
+
+
             }
         });
         return convertView;

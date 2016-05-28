@@ -206,107 +206,26 @@ public class SearchActivity extends AppCompatActivity implements DownListener, S
     }
 
     @Override
-    public void Download(View v, int position, final String songId, final String songName, final String artist, final String hqUrl, final String lqUrl, final String sqUrl, final String videoUrl, final String flacUrl, final UIButton btn_down) {
-        int level = (int) SPUtils.get(this, "music_level", 3);
-        if (level == 3) {
+    public void Download(View v, int position, final String songId, final String songName, final String artist, final String MusicUrl, final String videoUrl,  final UIButton btn_down) {
             ActionSheetDialog actionSheetDialog = new ActionSheetDialog(SearchActivity.this).builder();
-            actionSheetDialog.setTitle("选择音质");
-            if (!lqUrl.equals("")) {
-                actionSheetDialog.addSheetItem("标准", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
+            actionSheetDialog.setTitle("选择");
+                actionSheetDialog.addSheetItem("MP3", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
                     @Override
                     public void onClick(int which) {
-                        String type = "";
-                        if (lqUrl.contains(".mp3")) {
-                            type = ".mp3";
-                        }
-                        download(songName + "-" + artist + "-L" + type, lqUrl, songId, btn_down);
+                        download(songName + "-" + artist + "-L" + ".mp3", MusicUrl, songId, btn_down);
                     }
                 });
-            }
-            if (!hqUrl.equals("")) {
-                actionSheetDialog.addSheetItem("较高", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
-                    @Override
-                    public void onClick(int which) {
-                        String type = "";
-                        if (hqUrl.contains(".mp3")) {
-                            type = ".mp3";
-                        }
-                        download(songName + "-" + artist + "-H" + type, hqUrl, songId, btn_down);
-
-
-                    }
-                });
-            }
-            if (!sqUrl.equals("")) {
-                actionSheetDialog.addSheetItem("极高", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
-                    @Override
-                    public void onClick(int which) {
-                        String type = "";
-                        if (sqUrl.contains(".mp3")) {
-                            type = ".mp3";
-                        }
-                        download(songName + "-" + artist + "-S" + type, sqUrl, songId, btn_down);
-
-
-                    }
-                });
-            }
-            if (!flacUrl.equals("")) {
-                actionSheetDialog.addSheetItem("无损", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
-                    @Override
-                    public void onClick(int which) {
-                        String type = "";
-                        if (flacUrl.contains(".flac")) {
-                            type = ".flac";
-                        } else if (flacUrl.contains(".ape")) {
-                            type = ".ape";
-
-                        } else {
-                            type = ".mp3";
-                        }
-                        download(songName + "-" + artist + type, flacUrl, songId, btn_down);
-
-
-                    }
-                });
-            }
             if (!videoUrl.equals("")) {
                 actionSheetDialog.addSheetItem("MV", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
                     @Override
                     public void onClick(int which) {
-                        String type = "";
-                        if (videoUrl.contains(".mp4")) {
-                            type = ".mp4";
-                        }
-                        download(songName + "-" + artist + type, videoUrl, songId, btn_down);
 
+                        download(songName + "-" + artist + ".mp4", videoUrl, songId, btn_down);
 
                     }
                 });
             }
             actionSheetDialog.show();
-        } else {
-            if (level == 0 && !lqUrl.equals("")) {
-                String type = "";
-                if (lqUrl.contains(".mp3")) {
-                    type = ".mp3";
-                }
-                download(songName + "-" + artist + "-L" + type, lqUrl, songId, btn_down);
-            } else if (level == 1 && !hqUrl.equals("")) {
-                String type = "";
-                if (hqUrl.contains(".mp3")) {
-                    type = ".mp3";
-                }
-                download(songName + "-" + artist + "-H" + type, hqUrl, songId, btn_down);
-            } else if (level == 2 && !sqUrl.equals("")) {
-                String type = "";
-                if (sqUrl.contains(".mp3")) {
-                    type = ".mp3";
-                }
-                download(songName + "-" + artist + "-S" + type, sqUrl, songId, btn_down);
-            }
-
-        }
     }
 
 
@@ -338,16 +257,7 @@ public class SearchActivity extends AppCompatActivity implements DownListener, S
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-                builder.setTitle("默认音质");
-                String[] itmes = {"标准", "较高", "极高", "清除设置"};
-                builder.setItems(itmes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        SPUtils.put(SearchActivity.this, "music_level", which);
-                    }
-                });
-                builder.create().show();
+
                 break;
         }
     }

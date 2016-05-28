@@ -40,10 +40,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.VideoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label=""
-            android:screenOrientation="landscape"
-
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+            android:screenOrientation="sensor" />
 
         <service android:name=".ui.service.DownloadService" />
         <service android:name=".ui.service.MusicService" />

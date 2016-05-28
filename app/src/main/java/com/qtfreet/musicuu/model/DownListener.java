@@ -10,5 +10,5 @@ import me.drakeet.uiview.UIButton;
 public interface DownListener {
 
 
-    void Download(View v, int position, String songId, String songName, String artist, String hqUrl, String lqUrl, String sqUrl, String videoUrl, String flacUrl, UIButton btn_down);
+    void Download(View v, int position, String songId, String songName, String artist, String MusicUrl, String videoUrl, UIButton btn_down);
 }

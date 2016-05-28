@@ -65,35 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         checkUpdate();
 
     }
-// QQ音乐 "http://soso.music.qq.com/fcgi-bin/music_search_new_platform?t=0&n=20&g_tk=157256710&loginUin=584586119&hostUin=0&format=jsonp&inCharset=GB2312&outCharset=utf-8&notice=0&platform=newframe&jsonpCallback=jsnp_callback&needNewCode=0&w=i&p=1&catZhida=1&remoteplace=sizer.newclient.song_all&searchid=11040987310239770213&clallback=jsnp_callback&lossless=0"
-// 酷狗音乐 "http://mobilecdn.kugou.com/api/v3/search/song?format=jsonp&keyword=i&page=1&pagesize=20&showtype=1"
-// 酷我音乐 "http://search.kuwo.cn/r.s?all=i&ft=music&itemset=web_2013&client=kt&pn=0&rn=20&rformat=json&encoding=utf8"
-// 5sing "http://search.5sing.kugou.com/home/json?keyword=%E9%82%A3%E4%B8%80%E5%A4%9C&type=0&filter=0&sort=0&page=1&callback=succes"
-// 天天动听 "http://search.dongting.com/song/search/old?q=i&page=1&size=10"
-// 网易云如下
 
-    private void initnetease() {
-        String url = "http://music.163.com/api/search/pc";
-        OkHttpUtils.post().url(url).addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addHeader("Host", "music.163.com").addHeader("Cookie", "os=pc; MUSIC_U=5339640232")
-                .addParams("offset", "0").addParams("total", "true").addParams("limit", "50").addParams("type", "1")
-                .addParams("s", "i").build().execute(new StringCallback() {
-
-            @Override
-            public void onError(okhttp3.Call call, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(String arg0) {
-                System.out.println(arg0);
-                Log.e("TAG", arg0);
-
-            }
-
-
-        });
-    }
 
     private void firstuse() {
         boolean isfirst = (boolean) SPUtils.get(this, "isfirst", true);
@@ -177,54 +149,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!(boolean) SPUtils.get("com.qtfreet.musicuu_preferences", this, "AutoCheck", true)) {
             return;
         }
-        PgyUpdateManager.register(MainActivity.this,
-                new UpdateManagerListener() {
-
-                    @Override
-                    public void onUpdateAvailable(final String result) {
-
-                        // 将新版本信息封装到AppBean中
-                        final AppBean appBean = getAppBeanFromString(result);
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("有更新啦")
-                                .setMessage(appBean.getReleaseNote())
-                                .setNegativeButton(
-                                        "确定",
-                                        new DialogInterface.OnClickListener() {
-
-                                            @Override
-                                            public void onClick(
-                                                    DialogInterface dialog,
-                                                    int which) {
-                                                startDownloadTask(
-                                                        MainActivity.this,
-                                                        appBean.getDownloadURL());
-                                            }
-                                        }).show();
-                    }
-
-                    @Override
-                    public void onNoUpdateAvailable() {
-                    }
-                });
+        PgyUpdateManager.register(this);
     }
 
-    private void showBSDialog() {
-        final BottomSheetDialog dialog = new BottomSheetDialog(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_layout, null);
-        ListView recyclerView = (ListView) view.findViewById(R.id.bs_rv);
-        SimpleAdapter adapter = new SimpleAdapter(this, shareStr);
-        adapter.setItemClickListener(new SimpleAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(int pos) {
-                dialog.dismiss();
-                musictype = type[pos];
-            }
-        });
-        recyclerView.setAdapter(adapter);
-        dialog.setContentView(view);
-        dialog.show();
-    }
 
     private void initDir() {
         String path = (String) SPUtils.get("com.qtfreet.musicuu_preferences", this, "SavePath", "musicuu");
@@ -325,9 +252,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return super.onOptionsItemSelected(item);
     }
-
-    private static String[] shareStr = {"网易云音乐", "电信爱音乐", "百度音乐", "天天动听", "虾米音乐", "酷我音乐", "酷狗音乐", "多米音乐", "萌否音乐", "QQ音乐"};
-    private static String[] type = {"wy", "dx", "bd", "tt", "xm", "kw", "kg", "dm", "mf", "qq"};
 
     @Override
     public void onClick(View v) {
